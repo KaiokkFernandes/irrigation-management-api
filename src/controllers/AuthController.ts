@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import type { User } from '../database';
 import { users } from '../database';
+import { JWT_SECRET } from '../middlewares/auth.middleware';
 
-const JWT_SECRET = 'seu-segredo-super-secreto';
 
 export class AuthController {
   static async register(req: Request, res: Response): Promise<Response> {

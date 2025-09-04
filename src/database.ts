@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-// --- INTERFACES (Definição dos Tipos) ---
+//INTERFACES Definição dos Tipos
 
 
 export interface User {
