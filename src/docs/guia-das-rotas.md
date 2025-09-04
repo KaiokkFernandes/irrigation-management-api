@@ -395,6 +395,25 @@ Authorization: Bearer SEU_TOKEN_AQUI
   }
 }
 ```
+## **Observações Importantes sobre Irrigações**
+
+### **Formato da Data:**
+- **Obrigatório:** ISO 8601 no formato `YYYY-MM-DDTHH:mm:ssZ`
+- **Exemplo válido:** `2025-07-01T10:00:00Z`
+- **Exemplos inválidos:** 
+  - `2025-07-01 10:00:00` (sem T e Z)
+  - `01/07/2025 10:00` (formato brasileiro)
+  - `2025-07-01T10:00:00` (sem Z)
+
+### **ApplicationAmount:**
+- **Tipo:** Número decimal positivo
+- **Unidade:** Milímetros (mm)
+- **Exemplo:** `25.5` representa 25,5mm de irrigação aplicada
+
+### **Relacionamento com Pivôs:**
+- Todo registro de irrigação deve estar associado a um pivô existente
+- O pivô deve pertencer ao usuário autenticado
+- Se o pivô for deletado, terá problemas com a irrigação 
 
 ---
 
@@ -421,24 +440,3 @@ Authorization: Bearer SEU_TOKEN_AQUI
 3. Todas as requisições usarão automaticamente
 
 ---
-
-## **Observações Importantes sobre Irrigações**
-
-### **Formato da Data:**
-- **Obrigatório:** ISO 8601 no formato `YYYY-MM-DDTHH:mm:ssZ`
-- **Exemplo válido:** `2025-07-01T10:00:00Z`
-- **Exemplos inválidos:** 
-  - `2025-07-01 10:00:00` (sem T e Z)
-  - `01/07/2025 10:00` (formato brasileiro)
-  - `2025-07-01T10:00:00` (sem Z)
-
-### **ApplicationAmount:**
-- **Tipo:** Número decimal positivo
-- **Unidade:** Milímetros (mm)
-- **Exemplo:** `25.5` representa 25,5mm de irrigação aplicada
-
-### **Relacionamento com Pivôs:**
-- Todo registro de irrigação deve estar associado a um pivô existente
-- O pivô deve pertencer ao usuário autenticado
-- Se o pivô for deletado, terá problemas com a irrigação 
-
