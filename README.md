@@ -59,12 +59,12 @@ irrigation-management-api/
 │   │   └── auth.middleware.ts    # Middleware de autenticação
 │   ├── types/                    # Definições de tipos
 │   │   └── express.d.ts          # Extensões do Express
-│   ├── docs/                     # Documentação
-│   │   ├── guia-das-rotas.md     # Guia completo das rotas da API
-│   │   └── guia-test.md          # Guia de testes
 │   ├── database.ts               # Simulação de banco de dados
 │   ├── app.ts                    # Configuração do Express
 │   └── server.ts                 # Servidor principal
+├── docs/                         # Documentação
+│   ├── guia-das-rotas.md         # Guia completo das rotas da API
+│   └── guia-test.md              # Guia de testes
 ├── tests/                        # Testes automatizados
 │   ├── auth.test.ts              # Testes de autenticação
 │   ├── pivot.test.ts             # Testes de pivôs
