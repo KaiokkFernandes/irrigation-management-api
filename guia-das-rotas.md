@@ -223,6 +223,181 @@ Authorization: Bearer SEU_TOKEN_AQUI
 
 ---
 
+## **Rotas dos Registros de Irrigação**
+
+> **Para todas as rotas abaixo, adicione o header de autorização:**
+> ```
+> Authorization: Bearer SEU_TOKEN_AQUI
+> ```
+
+---
+
+### **POST /irrigations - Criar um novo registro de irrigação**
+
+**Método:** `POST`  
+**URL:** `http://localhost:3333/irrigations`  
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_AQUI
+```
+
+**Body (JSON):**
+```json
+{
+  "pivotId": "uuid-do-pivo",
+  "applicationAmount": 25.5,
+  "irrigationDate": "2025-07-01T10:00:00Z"
+}
+```
+
+**Resposta Esperada (201 Created):**
+```json
+{
+  "message": "Registro de irrigação criado com sucesso!",
+  "irrigation": {
+    "id": "uuid-do-registro",
+    "pivotId": "uuid-do-pivo",
+    "applicationAmount": 25.5,
+    "irrigationDate": "2025-07-01T10:00:00Z",
+    "userId": "uuid-do-usuario"
+  }
+}
+```
+
+**Possíveis Erros:**
+- **400 Bad Request:** Campos obrigatórios ausentes, applicationAmount inválido, ou formato de data incorreto
+- **401 Unauthorized:** Token inválido/ausente
+- **404 Not Found:** Pivô não encontrado ou não pertence ao usuário
+
+---
+
+### **GET /irrigations - Listar todos os registros de irrigação do usuário**
+
+**Método:** `GET`  
+**URL:** `http://localhost:3333/irrigations`  
+**Headers:**
+```
+Authorization: Bearer SEU_TOKEN_AQUI
+```
+
+**Resposta Esperada (200 OK):**
+```json
+{
+  "message": "Registros de irrigação listados com sucesso!",
+  "irrigations": [
+    {
+      "id": "uuid-do-registro-1",
+      "pivotId": "uuid-do-pivo",
+      "applicationAmount": 25.5,
+      "irrigationDate": "2025-07-01T10:00:00Z",
+      "userId": "uuid-do-usuario"
+    },
+    {
+      "id": "uuid-do-registro-2",
+      "pivotId": "uuid-do-pivo",
+      "applicationAmount": 30.0,
+      "irrigationDate": "2025-07-02T14:30:00Z",
+      "userId": "uuid-do-usuario"
+    }
+  ]
+}
+```
+
+---
+
+### **GET /irrigations/:id - Obter um registro específico**
+
+**Método:** `GET`  
+**URL:** `http://localhost:3333/irrigations/uuid-do-registro`  
+**Headers:**
+```
+Authorization: Bearer SEU_TOKEN_AQUI
+```
+
+**Resposta Esperada (200 OK):**
+```json
+{
+  "message": "Registro de irrigação encontrado!",
+  "irrigation": {
+    "id": "uuid-do-registro",
+    "pivotId": "uuid-do-pivo",
+    "applicationAmount": 25.5,
+    "irrigationDate": "2025-07-01T10:00:00Z",
+    "userId": "uuid-do-usuario"
+  }
+}
+```
+
+**Possível Erro:**
+- **404 Not Found:** Registro não encontrado
+
+---
+
+### **PUT /irrigations/:id - Atualizar um registro existente**
+
+**Método:** `PUT`  
+**URL:** `http://localhost:3333/irrigations/uuid-do-registro`  
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_AQUI
+```
+
+**Body (JSON) - Campos opcionais:**
+```json
+{
+  "pivotId": "uuid-do-outro-pivo",
+  "applicationAmount": 35.0,
+  "irrigationDate": "2025-07-02T15:00:00Z"
+}
+```
+
+**Resposta Esperada (200 OK):**
+```json
+{
+  "message": "Registro de irrigação atualizado com sucesso!",
+  "irrigation": {
+    "id": "uuid-do-registro",
+    "pivotId": "uuid-do-outro-pivo",
+    "applicationAmount": 35.0,
+    "irrigationDate": "2025-07-02T15:00:00Z",
+    "userId": "uuid-do-usuario"
+  }
+}
+```
+
+**Possíveis Erros:**
+- **400 Bad Request:** ApplicationAmount inválido ou formato de data incorreto
+- **404 Not Found:** Registro não encontrado ou pivô não pertence ao usuário
+
+---
+
+### **DELETE /irrigations/:id - Remover um registro**
+
+**Método:** `DELETE`  
+**URL:** `http://localhost:3333/irrigations/uuid-do-registro`  
+**Headers:**
+```
+Authorization: Bearer SEU_TOKEN_AQUI
+```
+
+**Resposta Esperada (200 OK):**
+```json
+{
+  "message": "Registro de irrigação deletado com sucesso!",
+  "irrigation": {
+    "id": "uuid-do-registro",
+    "pivotId": "uuid-do-pivo",
+    "applicationAmount": 25.5,
+    "irrigationDate": "2025-07-01T10:00:00Z",
+    "userId": "uuid-do-usuario"
+  }
+}
+```
+
+---
+
 ## **Configuração no Insomnia**
 
 ### Criando um Environment para o Token:
@@ -237,7 +412,7 @@ Authorization: Bearer SEU_TOKEN_AQUI
 ```
 
 ### Usando o Environment:
-- **URL:** `{{ _.base_url }}/pivots`
+- **URL:** `{{ _.base_url }}/irrigations`
 - **Authorization:** `Bearer {{ _.auth_token }}`
 
 ### Atualizando o Token:
@@ -247,11 +422,23 @@ Authorization: Bearer SEU_TOKEN_AQUI
 
 ---
 
-##  **Códigos de Erro Comuns**
+## **Observações Importantes sobre Irrigações**
 
-| Código | Descrição | Possível Causa |
-|--------|-----------|----------------|
-| **400** | Bad Request | Campos obrigatórios ausentes ou inválidos |
-| **401** | Unauthorized | Token ausente, inválido ou expirado |
-| **404** | Not Found | Recurso (pivô) não encontrado |
-| **500** | Internal Server Error | Erro no servidor |
+### **Formato da Data:**
+- **Obrigatório:** ISO 8601 no formato `YYYY-MM-DDTHH:mm:ssZ`
+- **Exemplo válido:** `2025-07-01T10:00:00Z`
+- **Exemplos inválidos:** 
+  - `2025-07-01 10:00:00` (sem T e Z)
+  - `01/07/2025 10:00` (formato brasileiro)
+  - `2025-07-01T10:00:00` (sem Z)
+
+### **ApplicationAmount:**
+- **Tipo:** Número decimal positivo
+- **Unidade:** Milímetros (mm)
+- **Exemplo:** `25.5` representa 25,5mm de irrigação aplicada
+
+### **Relacionamento com Pivôs:**
+- Todo registro de irrigação deve estar associado a um pivô existente
+- O pivô deve pertencer ao usuário autenticado
+- Se o pivô for deletado, terá problemas com a irrigação 
+

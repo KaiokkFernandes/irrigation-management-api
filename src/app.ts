@@ -2,6 +2,7 @@ import express from 'express';
 import type { Request, Response } from 'express';
 import authRouter from './routes/auth.routes';
 import pivotRouter from './routes/pivot.routes';
+import { irrigationRoutes } from './routes/irrigation.routes';
 
 export const createApp = () => {
   const app = express();
@@ -14,6 +15,7 @@ export const createApp = () => {
 
   app.use('/auth', authRouter);
   app.use('/pivots', pivotRouter);
+  app.use('/irrigations', irrigationRoutes);
 
   return app;
 };
