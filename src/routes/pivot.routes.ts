@@ -3,7 +3,7 @@ import { PivotController } from '../controllers/PivotController';
 import { authMiddleware } from '../middlewares/auth.middleware';
 
 const pivotRouter = Router();
-
+// Rotas também protegidas por autenticação do middleware
 pivotRouter.use(authMiddleware);
 
 pivotRouter.get('/', PivotController.list);

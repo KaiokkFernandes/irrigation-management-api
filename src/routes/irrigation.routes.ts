@@ -3,7 +3,7 @@ import { IrrigationController } from '../controllers/IrrigationController';
 import { authMiddleware } from '../middlewares/auth.middleware';
 
 export const irrigationRoutes = Router();
-
+// Rotas já protegidas por autenticação do middleware
 irrigationRoutes.use(authMiddleware);
 
 irrigationRoutes.get('/', IrrigationController.list);

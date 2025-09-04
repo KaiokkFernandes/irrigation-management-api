@@ -1,4 +1,3 @@
-// Extensões para os tipos do Express
 import type { User } from '../database';
 
 declare global {
